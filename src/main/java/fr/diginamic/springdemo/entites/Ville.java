@@ -1,12 +1,16 @@
 package fr.diginamic.springdemo.entites;
+import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity
 public class Ville {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nom;
     private int nbHabitant;
+
+    public Ville(){
+    }
 
     public Ville(int id, String nom, int nbHabitant) {
         this.nom = nom;

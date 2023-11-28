@@ -1,5 +1,10 @@
 package fr.diginamic.springdemo.controleurs;
 import fr.diginamic.springdemo.entites.Ville;
+import fr.diginamic.springdemo.services.VilleService;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -11,60 +16,40 @@ import java.util.Objects;
 @RequestMapping("/villes")
 public class VilleControleur {
 
-    private ArrayList<Ville> villes = new ArrayList<>();
+    @PersistenceContext
+    EntityManager em;
 
-   @GetMapping
-   public List<Ville> getVilles() {
-       return villes;
-   }
+    @Autowired
+    private VilleService villeService;
 
-    @GetMapping("/{id}")  //TP 5
-    public Ville getVilleId(@PathVariable int id){
-        for (Ville v : villes){
-            if (v.getId() == id){
-                return v;
-            }
-        }
-        return null;
+
+    @GetMapping
+    public List<Ville> getVilles() {
+        return villeService.extractVilles();
+    }
+
+    @GetMapping("/{id}")
+    public Ville getVilleId(@PathVariable int id) {
+        return villeService.extractVille(id);
+    }
+
+    @GetMapping("/nom/{nom}")
+    public Ville getVilleNom(@PathVariable String nom) {
+        return villeService.extractVille(nom);
     }
 
     @PutMapping
-    public ResponseEntity<String> insertVille(@RequestBody Ville nvVille) {
-        if (!villes.contains(nvVille)) {
-            villes.add(nvVille);
-            return ResponseEntity.ok("Ville insérée avec succès");
-        }
-        return ResponseEntity.badRequest().body("La ville existe déjà");
+    public List<Ville> putVille(@RequestBody Ville ville) {
+        return villeService.insertVille(ville);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<String> modifierVille(@PathVariable int id, @RequestBody Ville nVille){
-       if (id<=0){
-           return ResponseEntity.badRequest().body("Identifiant incorrect");
-       }
-       for (Ville v: villes){
-            if (v.getId()==id){
-                v.setNom(nVille.getNom());
-                v.setNbHabitant(nVille.getNbHabitant());
-                return ResponseEntity.ok("Ville modifier avec succes");
-            }
-        }
-        return ResponseEntity.badRequest().body("Erreur, identifiant: "+id+"non trouver");
+    @PostMapping
+    public List<Ville> postVille(@RequestBody Ville ville) {
+        return villeService.modifierVille(ville.getId(), ville);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteVille(@PathVariable int id) {
-        if (id <= 0) {
-            return ResponseEntity.badRequest().body("L'identifiant est incorrect");
-        }
-        Iterator<Ville> iterVilles = villes.iterator();
-        while (iterVilles.hasNext()) {
-            Ville v = iterVilles.next();
-            if (v.getId() == id) {
-                iterVilles.remove();
-                return ResponseEntity.ok("Ville supprimé");
-            }
-        }
-        return ResponseEntity.badRequest().body("La ville avec l'id "+ id + "n'a pas été trouvée");
+    public List<Ville> deleteVille(@PathVariable int id) {
+        return villeService.supprimerVille(id);
     }
 }
