@@ -35,12 +35,10 @@ public class VilleService {
 @Transactional
     public List<Ville> modifierVille(int idVille, Ville villeModifiee) {
         Ville villeBD = extractVille(idVille);
-
         villeBD.setNom(villeModifiee.getNom());
         villeBD.setNbHabitant(villeModifiee.getNbHabitant());
-
+        villeBD.setCodeDepartement(villeModifiee.getCodeDepartement());
         em.merge(villeBD);
-        em.flush();
         return extractVilles();
     }
 @Transactional

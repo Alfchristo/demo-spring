@@ -8,14 +8,16 @@ public class Ville {
     private int id;
     private String nom;
     private int nbHabitant;
+    private int codeDepartement;
 
     public Ville(){
     }
 
-    public Ville(int id, String nom, int nbHabitant) {
+    public Ville(int id, String nom, int nbHabitant, int codeDepartement) {
         this.nom = nom;
         this.nbHabitant = nbHabitant;
         this.id = id;
+        this.codeDepartement = codeDepartement;
     }
 
     public int getId() {
@@ -37,5 +39,12 @@ public class Ville {
                 this.nbHabitant = nbHabitant;
             }
 
+    public int getCodeDepartement() {
+        return codeDepartement;
+    }
+
+    public void setCodeDepartement(int codeDepartement) {
+        this.codeDepartement = codeDepartement;
+    }
 }
 
