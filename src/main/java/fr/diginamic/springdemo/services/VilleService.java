@@ -1,6 +1,7 @@
 package fr.diginamic.springdemo.services;
 
 import fr.diginamic.springdemo.entites.Ville;
+import fr.diginamic.springdemo.exception.ValidationException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -28,7 +29,16 @@ public class VilleService {
                 .getSingleResult();
     }
 @Transactional
-    public List<Ville> insertVille(Ville ville) {
+    public List<Ville> insertVille(Ville ville) throws ValidationException {
+        if (ville.getNbHabitant() < 1){
+            throw new ValidationException("La ville doit avoir au moins 10 habitants");
+        }
+        if (ville.getNom().length() <2 ){
+            throw new ValidationException("Le nom de la ville doit contenir au moins 2 caractères");
+        }
+        if (ville.getCodeDepartement().length() != 2){
+            throw new ValidationException("Le code départetment doit contenir 2 caractères");
+        }
         em.persist(ville);
         return extractVilles();
     }

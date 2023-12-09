@@ -1,5 +1,6 @@
 package fr.diginamic.springdemo.controleurs;
 import fr.diginamic.springdemo.entites.Ville;
+import fr.diginamic.springdemo.exception.ValidationException;
 import fr.diginamic.springdemo.services.VilleService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
@@ -39,7 +40,7 @@ public class VilleControleur {
     }
 
     @PutMapping
-    public List<Ville> putVille(@RequestBody Ville ville) {
+    public List<Ville> putVille(@RequestBody Ville ville) throws ValidationException {
         return villeService.insertVille(ville);
     }
 

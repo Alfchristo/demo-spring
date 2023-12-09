@@ -8,12 +8,12 @@ public class Ville {
     private int id;
     private String nom;
     private int nbHabitant;
-    private int codeDepartement;
+    private String codeDepartement;
 
     public Ville(){
     }
 
-    public Ville(int id, String nom, int nbHabitant, int codeDepartement) {
+    public Ville(int id, String nom, int nbHabitant, String codeDepartement) {
         this.nom = nom;
         this.nbHabitant = nbHabitant;
         this.id = id;
@@ -39,11 +39,11 @@ public class Ville {
                 this.nbHabitant = nbHabitant;
             }
 
-    public int getCodeDepartement() {
+    public String getCodeDepartement() {
         return codeDepartement;
     }
 
-    public void setCodeDepartement(int codeDepartement) {
+    public void setCodeDepartement(String codeDepartement) {
         this.codeDepartement = codeDepartement;
     }
 }
